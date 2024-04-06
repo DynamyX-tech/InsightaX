@@ -1,3 +1,5 @@
+from .train import InsightaX_KNearestNeighbour
+
 task_types = ["classification", "regression", "clustering",]
 
 task_subtypes = {
@@ -7,3 +9,7 @@ task_subtypes = {
 }
 
 preprocess_steps =["Delete empty rows", "Fill empty rows", "Delete duplicate rows"]
+
+task_operation_class = {
+    "k-nearest-neighbors": InsightaX_KNearestNeighbour(),
+}

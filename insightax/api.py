@@ -74,6 +74,7 @@ async def get_view_dataset(request: Request, rows: int):
     try:
         return {
             "result": custom_train_model.show_dataset(rows),
+            "is_null":custom_train_model.dataset_copy.isnull().sum().to_json(),
             "total_rows":len(custom_train_model.dataset_copy.index)
             }, HTTP_200_OK
     except Exception as error:
@@ -120,9 +121,26 @@ async def get_preprocess_result(request: Request, step: str = ""):
             status_code=HTTP_500_INTERNAL_SERVER_ERROR, detail="Internal Server Error"
         ) from error
         
-@router.post("/model/params")
-async def post_set_train_params(request: Request):
-    pass
+@router.put("/model/params")
+async def post_set_train_params(request: Request, item: ModelParams):
+    try:
+        model=item
+        if model.taskName=="" or model.taskType=="":
+            return {"result": "Task type or Task name not provided"}, HTTP_404_NOT_FOUND
+        if model.taskName in task_subtypes and any(task_type.get(model.taskType) == "available" for task_type in task_subtypes[model.taskName]):
+            custom_train_model.operation = model.taskType
+            custom_train_model.operation_class = task_operation_class[model.taskType]            
+            return {
+                "result": "Successful",
+                "model":custom_train_model.operation,
+                "params":custom_train_model.show_mode_params()
+                }, HTTP_200_OK
+            
+        return {"result": "Task not availabe"}, HTTP_404_NOT_FOUND
+    except Exception as error:
+        raise HTTPException(
+            status_code=HTTP_500_INTERNAL_SERVER_ERROR, detail="Internal Server Error"
+        ) from error
         
 @router.post("/model/train")
 async def post_model_train(request: Request):
