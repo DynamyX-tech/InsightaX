@@ -44,8 +44,9 @@ const Dashboard = () => {
         </section>
       </aside>
       <main className="w-full mt-12 bg-blue-900 bg-opacity-20 mr-10 h-[90vh]">
-        <section className="flex justify-center items-center py-4 w-full">
-          <h1 className="text-4xl font-bold">Upload your dataset</h1>
+        <section className="flex flex-col justify-center items-start py-4 px-12 w-full">
+          <p>step 1/6</p>
+          <h1 className="text-3xl font-bold">Upload your dataset</h1>
         </section>
         <section className="pt-24">
           <div className="flex justify-center items-center">
