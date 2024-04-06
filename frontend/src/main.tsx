@@ -12,6 +12,7 @@ import "./index.css";
 import {Toaster} from "sonner";
 import { Route, Switch } from "wouter";
 import Dashboard from "./pages/Dashboard.tsx";
+import Temp from "./pages/temp.tsx";
 const queryClient = new QueryClient()
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
@@ -20,6 +21,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
     <Switch>
       <Route path="/" component={App} />
       <Route path="/dashboard" component={Dashboard} />
+      <Route path="/temp" component={Temp} />
     </Switch>
     <Toaster/>
     </QueryClientProvider>
