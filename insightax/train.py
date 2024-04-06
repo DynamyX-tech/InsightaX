@@ -3,10 +3,12 @@ class InsightaX_KNearestNeighbour:
         self.params = {
             "n_neighbors" : 5,
             "metric" : ["minkowski"], 
-            "weights" : ["uniform"],
-            "algorithm" : ["auto"],
+            "weights" : ["uniform", "distance"],
+            "algorithm" : ["auto", "ball_tree", "kd_tree", "brute"],
             "leaf_size" : 30,
-            "metric_params" : None,
-            "n_jobs" : None,
+            "n_jobs" : 1,
             "p": 2
         }
+        
+    def set_params(self, data):
+        self.params = data

@@ -121,8 +121,8 @@ async def get_preprocess_result(request: Request, step: str = ""):
             status_code=HTTP_500_INTERNAL_SERVER_ERROR, detail="Internal Server Error"
         ) from error
         
-@router.put("/model/params")
-async def post_set_train_params(request: Request, item: ModelParams):
+@router.put("/model/getparams")
+async def put_set_train_params(request: Request, item: ModelParams):
     try:
         model=item
         if model.taskName=="" or model.taskType=="":
@@ -136,6 +136,26 @@ async def post_set_train_params(request: Request, item: ModelParams):
                 "params":custom_train_model.show_mode_params()
                 }, HTTP_200_OK            
         return {"result": "Task not availabe"}, HTTP_404_NOT_FOUND
+    except Exception as error:
+        raise HTTPException(
+            status_code=HTTP_500_INTERNAL_SERVER_ERROR, detail="Internal Server Error"
+        ) from error
+        
+@router.put("/model/setparams")
+async def put_set_train_config(request: Request):
+    item = request.json()
+    try:
+        custom_train_model.operation_class.set_params(item)
+        return {"result": "Model pre-configured successfully"}, HTTP_200_OK
+    except Exception as error:
+        raise HTTPException(
+            status_code=HTTP_500_INTERNAL_SERVER_ERROR, detail="Internal Server Error"
+        ) from error
+        
+@router.put("/model/getfeatures")
+async def put_get_model_features(request: Request):
+    try:
+        return {"result": custom_train_model.get_column_names()}, HTTP_200_OK
     except Exception as error:
         raise HTTPException(
             status_code=HTTP_500_INTERNAL_SERVER_ERROR, detail="Internal Server Error"

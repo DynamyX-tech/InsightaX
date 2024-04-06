@@ -28,3 +28,5 @@ class CustomTrainModel:
         
     def show_mode_params(self):
         return self.operation_class.params
+    def get_column_names(self):
+        return self.dataset_copy.columns.to_list()
