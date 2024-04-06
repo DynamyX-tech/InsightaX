@@ -1,5 +1,7 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, UploadFile, File
 import os
+import pandas as pd
+import io
 from starlette.requests import Request
 from starlette.status import HTTP_500_INTERNAL_SERVER_ERROR, HTTP_404_NOT_FOUND, HTTP_401_UNAUTHORIZED, HTTP_200_OK
 from .utils import task_types, task_subtypes
@@ -7,7 +9,7 @@ from .models import *
 
 router = APIRouter()
 
-dataset_location = ""
+dataset = None
 
 @router.get("/task/type")
 async def get_task_type(request: Request):
@@ -41,21 +43,18 @@ async def get_task_categories(request: Request, task_type: str):
         
 
 @router.post("/dataset/csv")
-async def get_csv_dataset(request: Request, item: LocationItem):
+async def get_csv_dataset(file: UploadFile = File(...)):
     """
     Returns the status if the file is available for operation or not.
     Returns:
     """
     try:
-        csv_location = item.csv_location
-        if csv_location == "":
-            return {"result": "Dataset not found"}, HTTP_404_NOT_FOUND
-        if os.path.exists(csv_location):
-            if csv_location.split('/')[-1].split('.')[-1] != 'csv':
-                return {"result": "Invalid file format"}, HTTP_401_UNAUTHORIZED
-            dataset_location = csv_location
-            return {"result": "Dataset uploaded successfully"}, HTTP_200_OK
-        return {"result": "Dataset not found"}, HTTP_404_NOT_FOUND
+        if file.filename.split('.')[-1] != 'csv':
+            return {"result": "Invalid file format"}, HTTP_401_UNAUTHORIZED
+        else:
+            contents = await file.read()
+            dataset = pd.read_csv(io.StringIO(contents.decode('utf-8')))
+            return {"result": "Dataset uploaded successfully", "data":dataset.head().to_json()}, HTTP_200_OK
     except Exception as error:
         raise HTTPException(
             status_code=HTTP_500_INTERNAL_SERVER_ERROR, detail="Internal Server Error"
@@ -64,11 +63,28 @@ async def get_csv_dataset(request: Request, item: LocationItem):
 @router.get("/dataset/preprocess")
 async def get_preprocess_result(request: Request):
     """
-    Returns the task type.
+    Returns the pre-processing stats.
     Returns:
     """
     try:
         return {"result": "Dataset preprocessed successfully"}, HTTP_200_OK
+    except Exception as error:
+        raise HTTPException(
+            status_code=HTTP_500_INTERNAL_SERVER_ERROR, detail="Internal Server Error"
+        ) from error
+        
+@router.post("/model/params")
+async def post_set_train_params(request: Request):
+    pass
+        
+@router.post("/model/train")
+async def post_model_train(request: Request):
+    """
+    Returns the model training stats.
+    Returns:
+    """
+    try:
+        return {"result": "Model trained successfully"}, HTTP_200_OK
     except Exception as error:
         raise HTTPException(
             status_code=HTTP_500_INTERNAL_SERVER_ERROR, detail="Internal Server Error"

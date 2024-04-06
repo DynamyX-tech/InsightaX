@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
+from flaskwebgui import FlaskUI
 
 from insightax.api import router as api_router
 
@@ -18,7 +19,8 @@ app.add_middleware(
 )
 
 app.mount("/", StaticFiles(directory="./frontend/dist", html=True))
-
+        
+        
 @app.get("/")
 async def root():
     """
@@ -31,3 +33,4 @@ async def root():
         raise HTTPException(
             status_code=HTTP_500_INTERNAL_SERVER_ERROR, detail="Internal Server Error"
         ) from error
+        
