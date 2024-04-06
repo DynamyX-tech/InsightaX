@@ -11,10 +11,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-const data = {
-  result: "Dataset uploaded successfully",
-  is_null: '{"Name":0,"Power":1,"Data":3,"Energy":0,"Word":0}',
-};
+const is_null = { Name: 0, Power: 1, Data: 3, Energy: 0, Word: 0 };
 const table = {
   Name: { "0": "Hi", "1": "Bye", "2": "See", "3": "Name", "4": "Yoyo" },
   Power: { "0": 12.0, "1": null, "2": 22.0, "3": 22.0, "4": 12.0 },
@@ -22,6 +19,30 @@ const table = {
   Energy: { "0": "qwas", "1": "weeee", "2": "ee", "3": "ee", "4": "ee" },
   Word: { "0": "eeee", "1": "ar", "2": "ak", "3": "aj", "4": "su" },
 };
+
+function convertTableData(table: any) {
+  const keys = Object.keys(table);
+  const maxLength = Math.max(
+    ...keys.map((key) => Object.keys(table[key]).length)
+  );
+  const tableData = [];
+
+  for (let i = 0; i < maxLength; i++) {
+    const rowData: any = [];
+    keys.forEach((key) => {
+      if (table[key][i] !== undefined) {
+        if (table[key][i] !== null) {
+          rowData.push(table[key][i]);
+        } else {
+          rowData.push("null");
+        }
+      }
+    });
+    tableData.push(rowData.length > 0 ? rowData : null);
+  }
+
+  return tableData;
+}
 const NavComponent = (props: {
   text: string;
   checked?: boolean;
@@ -105,31 +126,44 @@ const Temp = () => {
                   })}
                 </TableRow>
               </TableHeader>
-              {/* <TableHeader>
-              <TableRow>
-                <TableHead className="w-[100px]">Invoice</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead>Method</TableHead>
-                <TableHead className="text-right">Amount</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              <TableRow>
-                <TableCell className="font-medium">INV001</TableCell>
-                <TableCell>Paid</TableCell>
-                <TableCell>Credit Card</TableCell>
-                <TableCell className="text-right">$250.00</TableCell>
-              </TableRow>
-            </TableBody> */}
+              {
+                <TableBody>
+                  {convertTableData(table).map((row) => {
+                    return (
+                      <TableRow>
+                        {row.map((cell: any) => {
+                          return <TableCell>{cell}</TableCell>;
+                        })}
+                      </TableRow>
+                    );
+                  })}
+                </TableBody>
+              }
             </Table>
           </section>
-          <section className=" px-4 py-4 bg-background rounded-[0.5rem] w-[23vw] flex flex-col gap-4 items-center">
+          <section className=" px-4 py-4 border border-foreground rounded-[0.5rem] w-[23vw] flex flex-col gap-4 items-center justify-center">
             <h2 className="text-lg font-bold">Null Data Table</h2>
-            <div className="flex items-center gap-28">
-              <h2>Hello</h2>
-              <p>05</p>
+            {Object.keys(is_null).map((key) => {
+              return (
+                <>
+                  <div className="flex items-center justify-between w-[18vw]">
+                    <h2>{key}</h2>
+                    <p>{is_null[key as keyof typeof is_null]}</p>
+                  </div>
+                </>
+              );
+            })}
+            <div className="flex gap-2">
+              <Button className="bg-foreground hover:bg-accent rounded">
+                Remove Null
+              </Button>
+              <Button className="bg-foreground hover:bg-accent rounded">
+                Fill Null
+              </Button>
+              <Button className="bg-foreground hover:bg-accent rounded">
+                Impute Null
+              </Button>
             </div>
-            {/* {data.is_null} */}
           </section>
         </section>
       </main>
