@@ -1,5 +1,6 @@
-import { Circle, CircleCheckBig } from "lucide-react";
-
+import { Button } from "@/components/ui/button";
+import { ArrowLeft, Circle, CircleCheckBig } from "lucide-react";
+import Dropzone from "react-dropzone";
 const NavComponent = (props: {
   text: string;
   checked?: boolean;
@@ -43,23 +44,43 @@ const Dashboard = () => {
           <NavComponent text="Export" />
         </section>
       </aside>
-      <main className="w-full mt-12 bg-blue-900 bg-opacity-20 mr-10 h-[90vh]">
-        <section className="flex flex-col justify-center items-start py-4 px-12 w-full">
+      <main className="w-full mt-12 bg-blue-900 bg-opacity-20 mr-10 h-[90vh] rounded-xl">
+        <section className="flex flex-col gap-4 justify-center items-start py-4 px-12 w-full">
+          <Button className="bg-foreground rounded">
+            <ArrowLeft size={18} />
+          </Button>
           <p>step 1/6</p>
           <h1 className="text-3xl font-bold">Upload your dataset</h1>
         </section>
-        <section className="pt-24">
-          <div className="flex justify-center items-center">
+        <section>
+          <div className="flex justify-start px-12 items-center">
             <div className="flex flex-col gap-4">
-              <p className="text-center text-sm text-opacity-50">
+              <p className="text-sm text-opacity-20">
                 Upload your dataset to get started. We support CSV, Excel, and
                 JSON files.
               </p>
-              <div className="flex justify-center items-center pt-12">
-                <button className="bg-primary text-white px-4 py-2 rounded-lg">
-                  Upload Dataset
-                </button>
-              </div>
+              <Dropzone
+                onDrop={(acceptedFiles) => console.log(acceptedFiles)}
+                multiple={false}
+                accept={{
+                  "text/csv": [".csv"],
+                }}
+              >
+                {({ getRootProps, getInputProps }) => (
+                  <section
+                    className="w-[70vw] h-[40vh] border-2 border-foreground flex items-center justify-center border-dotted "
+                    {...getRootProps()}
+                  >
+                    <div>
+                      <input {...getInputProps()} />
+                      <p>
+                        Drag 'n' drop some files here, or click to select files
+                      </p>
+                    </div>
+                  </section>
+                )}
+              </Dropzone>
+              <Button className="text-foreground">Upload File</Button>
             </div>
           </div>
         </section>
