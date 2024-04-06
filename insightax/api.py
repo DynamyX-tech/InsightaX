@@ -59,7 +59,7 @@ async def get_csv_dataset(file: UploadFile = File(...)):
                 "result": "Dataset uploaded successfully",
                 "table":custom_train_model.dataset.head().to_json(),
                 "is_null":custom_train_model.dataset.isnull().sum().to_json(),
-                "total_columns":len(custom_train_model.dataset_copy.index)
+                "total_rows":len(custom_train_model.dataset_copy.index)
                 }, HTTP_200_OK
     except Exception as error:
         raise HTTPException(
@@ -67,14 +67,14 @@ async def get_csv_dataset(file: UploadFile = File(...)):
         ) from error
 
 @router.get("/dataset/view")
-async def get_view_dataset(request: Request, columns: int):
+async def get_view_dataset(request: Request, rows: int):
     """
-    Returns the dataset as json table
+    Returns the dataset as json table with specified number of rows
     """
     try:
         return {
-            "result": custom_train_model.show_dataset(columns),
-            "total_columns":len(custom_train_model.dataset_copy.index)
+            "result": custom_train_model.show_dataset(rows),
+            "total_rows":len(custom_train_model.dataset_copy.index)
             }, HTTP_200_OK
     except Exception as error:
         raise HTTPException(
@@ -113,7 +113,7 @@ async def get_preprocess_result(request: Request, step: str = ""):
                 "result": "Dataset preprocessed successfully",
                 "table":custom_train_model.show_dataset(),
                 "is_null":custom_train_model.dataset_copy.isnull().sum().to_json(),
-                "total_columns":len(custom_train_model.dataset_copy.index)
+                "total_rows":len(custom_train_model.dataset_copy.index)
                 }, HTTP_200_OK
     except Exception as error:
         raise HTTPException(

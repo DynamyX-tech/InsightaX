@@ -17,5 +17,6 @@ class CustomTrainModel:
         
     def fill_empty_rows(self):
         self.dataset_copy.fillna(self.dataset_copy.mean(), inplace=True)
+        
     def delete_duplicate_rows(self):
         self.dataset_copy.drop_duplicates(inplace=True)
