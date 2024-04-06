@@ -1,6 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Circle, CircleCheckBig, Key } from "lucide-react";
-import { useState } from "react";
+import { ArrowLeft } from "lucide-react";
 import {
   Table,
   TableBody,
@@ -10,7 +9,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import Template from "@/components/Dashboard"
+import Template from "@/components/Dashboard";
 const is_null = { Name: 0, Power: 1, Data: 3, Energy: 0, Word: 0 };
 const table = {
   Name: { "0": "Hi", "1": "Bye", "2": "See", "3": "Name", "4": "Yoyo" },
@@ -45,17 +44,16 @@ function convertTableData(table: any) {
 }
 
 const Temp = () => {
-  const [selected, setSelected] = useState(0);
   return (
     <Template>
-        <section className="flex flex-col gap-6 justify-center items-start py-4 px-12 w-full">
-          <Button className="bg-foreground rounded">
-            <ArrowLeft size={18} />
-          </Button>
-          <p>step 2/6</p>
-          <h1 className="text-3xl font-bold">Preprocessing data</h1>
-        </section>
-        {/* <section className="px-12">
+      <section className="flex flex-col gap-6 justify-center items-start py-4 px-12 w-full">
+        <Button className="bg-foreground rounded">
+          <ArrowLeft size={18} />
+        </Button>
+        <p>step 2/6</p>
+        <h1 className="text-3xl font-bold">Preprocessing data</h1>
+      </section>
+      {/* <section className="px-12">
           <nav className="flex flex-row gap-8 w-max items-center">
             <div
               className={`${
@@ -75,58 +73,58 @@ const Temp = () => {
             </div>
           </nav>
         </section> */}
-        <section className="px-12 pt-6 flex gap-4">
-          <section className="w-[50vw]">
-            <Table>
-              <TableCaption>The dataset uploaded by you</TableCaption>
-              <TableHeader>
-                <TableRow>
-                  {Object.keys(table).map((key) => {
-                    return <TableHead>{key}</TableHead>;
-                  })}
-                </TableRow>
-              </TableHeader>
-              {
-                <TableBody>
-                  {convertTableData(table).map((row) => {
-                    return (
-                      <TableRow>
-                        {row.map((cell: any) => {
-                          return <TableCell>{cell}</TableCell>;
-                        })}
-                      </TableRow>
-                    );
-                  })}
-                </TableBody>
-              }
-            </Table>
-          </section>
-          <section className=" px-4 py-4 border border-foreground rounded-[0.5rem] w-[23vw] flex flex-col gap-4 items-center justify-center">
-            <h2 className="text-lg font-bold">Null Data Table</h2>
-            {Object.keys(is_null).map((key) => {
-              return (
-                <>
-                  <div className="flex items-center justify-between w-[18vw]">
-                    <h2>{key}</h2>
-                    <p>{is_null[key as keyof typeof is_null]}</p>
-                  </div>
-                </>
-              );
-            })}
-            <div className="flex gap-2">
-              <Button className="bg-foreground hover:bg-accent rounded">
-                Remove Null
-              </Button>
-              <Button className="bg-foreground hover:bg-accent rounded">
-                Fill Null
-              </Button>
-              <Button className="bg-foreground hover:bg-accent rounded">
-                Impute Null
-              </Button>
-            </div>
-          </section>
+      <section className="px-12 pt-6 flex gap-4">
+        <section className="w-[50vw]">
+          <Table>
+            <TableCaption>The dataset uploaded by you</TableCaption>
+            <TableHeader>
+              <TableRow>
+                {Object.keys(table).map((key) => {
+                  return <TableHead>{key}</TableHead>;
+                })}
+              </TableRow>
+            </TableHeader>
+            {
+              <TableBody>
+                {convertTableData(table).map((row) => {
+                  return (
+                    <TableRow>
+                      {row.map((cell: any) => {
+                        return <TableCell>{cell}</TableCell>;
+                      })}
+                    </TableRow>
+                  );
+                })}
+              </TableBody>
+            }
+          </Table>
         </section>
-        </Template>
+        <section className=" px-4 py-4 border border-foreground rounded-[0.5rem] w-[23vw] flex flex-col gap-4 items-center justify-center">
+          <h2 className="text-lg font-bold">Null Data Table</h2>
+          {Object.keys(is_null).map((key) => {
+            return (
+              <>
+                <div className="flex items-center justify-between w-[18vw]">
+                  <h2>{key}</h2>
+                  <p>{is_null[key as keyof typeof is_null]}</p>
+                </div>
+              </>
+            );
+          })}
+          <div className="flex gap-2">
+            <Button className="bg-foreground hover:bg-accent rounded">
+              Remove Null
+            </Button>
+            <Button className="bg-foreground hover:bg-accent rounded">
+              Fill Null
+            </Button>
+            <Button className="bg-foreground hover:bg-accent rounded">
+              Impute Null
+            </Button>
+          </div>
+        </section>
+      </section>
+    </Template>
   );
 };
 
