@@ -54,7 +54,11 @@ async def get_csv_dataset(file: UploadFile = File(...)):
         else:
             contents = await file.read()
             dataset = pd.read_csv(io.StringIO(contents.decode('utf-8')))
-            return {"result": "Dataset uploaded successfully", "data":dataset.head().to_json()}, HTTP_200_OK
+            return {
+                "result": "Dataset uploaded successfully",
+                "table":dataset.head().to_json(),
+                "is_null":dataset.isnull().sum().to_json()
+                }, HTTP_200_OK
     except Exception as error:
         raise HTTPException(
             status_code=HTTP_500_INTERNAL_SERVER_ERROR, detail="Internal Server Error"
