@@ -15,7 +15,7 @@ class CustomTrainModel:
         self.operation_class = None
 
     def show_dataset(self, columns: int = 5):
-        return self.dataset_copy.head(columns).to_json()
+        return self.dataset_copy.head(columns).to_json(orient="split")
         
     def delete_empty_rows(self):
         self.dataset_copy.dropna(inplace=True)

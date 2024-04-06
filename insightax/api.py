@@ -134,8 +134,7 @@ async def post_set_train_params(request: Request, item: ModelParams):
                 "result": "Successful",
                 "model":custom_train_model.operation,
                 "params":custom_train_model.show_mode_params()
-                }, HTTP_200_OK
-            
+                }, HTTP_200_OK            
         return {"result": "Task not availabe"}, HTTP_404_NOT_FOUND
     except Exception as error:
         raise HTTPException(
