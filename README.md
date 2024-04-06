@@ -12,18 +12,37 @@ InsightaX streamlines the data analysis process by reducing complex code into a 
 1. Create environment : `python -m venv .env`
 2. Install backend dependencies : `pip install -r requirements.txt`
 3. Install front end dependencies:
-        ```bash
-        cd frontend
-        pnpm i
-        cd ..
+```bash
+cd frontend
+pnpm i
+pnpm run build
+cd ..
 ```
-
 4. Run server: `uvicorn main:app --reload`
 
 
 
 ## API stats
-[x] Get task data
-[x] Get subtask data
-[] Get hyper-params
-[] Post dataset
+
+### Backend:
+- [x] API task and sub task data
+- [x] API for csv submission and loading the class
+- [x] API for pre processing steps
+- [x] API for choosing the task type and model
+- [x] API for choosing hyper parameters
+- [ ] API for setting the features and target
+- [ ] API for training the model
+- [ ] API for evaluation and test
+- [ ] API for Neural Network config
+- [ ] API for Ollama integration for hyper-params tuning
+
+### Frontend
+- [x] Home screen
+- [x] Dataset selection screen
+- [x] Dataset preprocessing screen
+- [x] Dataset model selection screen
+- [x] Dataset hyper params selection screen
+- [ ] Model feature and target selection screen
+- [ ] Model training | Eval | Test screen
+- [ ] Neural network screen
+
