@@ -1,7 +1,7 @@
 # InsightaX
 
 InsightaX is an intuitive platform for data pre-processing, visualization and model training build on FastAPI and
-Vite+React. InsightaX is a powerful and user-friendly platform designed to make data analysis and model creation accessible to everyone. *InSIghTaX* stands for *"Intuitive Solution for Insightful Data Processing, Visualization, and Model Training with Advanced eXperience"*.
+Vite+React. InsightaX is a powerful and user-friendly platform designed to make data analysis and model creation accessible to everyone. ***InSIghTaX*** stands for ***"Intuitive Solution for Insightful Data Processing, Visualization, and Model Training with Advanced eXperience"***.
 
 ## Streamlined Data Analysis Process 📈
 
