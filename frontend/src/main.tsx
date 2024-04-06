@@ -12,7 +12,7 @@ import "./index.css";
 import {Toaster} from "sonner";
 import { Route, Switch,Redirect } from "wouter";
 import UploadData from "./pages/UploadData.tsx";
-import Temp from "./pages/temp.tsx";
+import Temp from "./pages/Preprocessing.tsx";
 const queryClient = new QueryClient()
 
 ReactDOM.createRoot(document.getElementById("root")!).render(

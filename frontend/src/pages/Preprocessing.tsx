@@ -10,7 +10,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-
+import Template from "@/components/Dashboard"
 const is_null = { Name: 0, Power: 1, Data: 3, Energy: 0, Word: 0 };
 const table = {
   Name: { "0": "Hi", "1": "Bye", "2": "See", "3": "Name", "4": "Yoyo" },
@@ -43,51 +43,11 @@ function convertTableData(table: any) {
 
   return tableData;
 }
-const NavComponent = (props: {
-  text: string;
-  checked?: boolean;
-  current?: boolean;
-}) => {
-  if (props.current) {
-    return (
-      <div className="flex gap-3 items-center font-bold">
-        <Circle size={18} />
-        <p>{props.text}</p>
-      </div>
-    );
-  }
-  if (props.checked) {
-    return (
-      <div className="flex gap-3 items-center text-primary ">
-        <CircleCheckBig size={18} />
-        <p>{props.text}</p>
-      </div>
-    );
-  }
-  return (
-    <div className="flex gap-3 items-center">
-      <Circle size={18} />
-      <p>{props.text}</p>
-    </div>
-  );
-};
+
 const Temp = () => {
   const [selected, setSelected] = useState(0);
   return (
-    <div className="flex">
-      <aside className="min-w-72">
-        <img src="/Logo.webp" className="h-10 m-6"></img>
-        <section className="m-6 mt-12 flex flex-col gap-4">
-          <NavComponent text="Upload your dataset" checked />
-          <NavComponent text="Preprocessing data" current />
-          <NavComponent text="Select model" />
-          <NavComponent text="Choose Hyper" />
-          <NavComponent text="Train model" />
-          <NavComponent text="Test model" />
-          <NavComponent text="Export" />
-        </section>
-      </aside>
-      <main className="w-full mt-12 bg-blue-900 bg-opacity-20 mr-10 h-[90vh] rounded-xl">
+    <Template>
         <section className="flex flex-col gap-6 justify-center items-start py-4 px-12 w-full">
           <Button className="bg-foreground rounded">
             <ArrowLeft size={18} />
@@ -166,8 +126,7 @@ const Temp = () => {
             </div>
           </section>
         </section>
-      </main>
-    </div>
+        </Template>
   );
 };
 
