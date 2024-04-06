@@ -1,6 +1,11 @@
 import { Button } from "@/components/ui/button";
+import { BASE_URL } from "@/consts";
 import { ArrowLeft, Circle, CircleCheckBig } from "lucide-react";
 import Dropzone from "react-dropzone";
+import { useMutation } from "@tanstack/react-query";
+import { toast } from "sonner";
+import { useState } from "react";
+
 const NavComponent = (props: {
   text: string;
   checked?: boolean;
@@ -29,7 +34,23 @@ const NavComponent = (props: {
     </div>
   );
 };
+
+type Response = [any,number];
 const Dashboard = () => {
+  const [fileData, setFileData] = useState<File | null>(null);
+
+  const postTodo = async (formData: FormData) => {
+    let data = await fetch(`${BASE_URL}/api/dataset/csv`, {
+      method: "POST",
+      body: formData,
+    }).then((d) => d.json()) as Response;
+    if(data[1]!=200){
+      throw new Error("Error! Check the file or application status!")
+    }
+  };
+  const mutation = useMutation({
+    mutationFn: postTodo,
+  });
   return (
     <div className="flex">
       <aside className="min-w-72">
@@ -60,7 +81,9 @@ const Dashboard = () => {
                 JSON files.
               </p>
               <Dropzone
-                onDrop={(acceptedFiles) => console.log(acceptedFiles)}
+                onDrop={async (files) => {
+                  setFileData(files[0]);
+                }}
                 multiple={false}
                 accept={{
                   "text/csv": [".csv"],
@@ -74,13 +97,36 @@ const Dashboard = () => {
                     <div>
                       <input {...getInputProps()} />
                       <p>
-                        Drag 'n' drop some files here, or click to select files
+                        {fileData
+                          ? `File selected: ${fileData.name}`
+                          : `Drag 'n' drop some files here, or click to select files`}
                       </p>
                     </div>
                   </section>
                 )}
               </Dropzone>
-              <Button className="text-foreground">Upload File</Button>
+              <Button
+                className="text-foreground"
+                onClick={async () => {
+                  if (fileData) {
+                    let formData = new FormData();
+                    formData.append("file", fileData);
+                    let data = await mutation.mutateAsync(formData, {
+                      onSuccess: () => {
+                        toast.success("Uploaded!");
+                      },
+                      onError: (e)=>{
+                        toast.error(e.message)
+                      }
+                    });
+                    console.log(data);
+                  } else {
+                    toast.error("No file added yet!");
+                  }
+                }}
+              >
+                Upload File
+              </Button>
             </div>
           </div>
         </section>
