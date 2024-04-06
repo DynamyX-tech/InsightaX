@@ -7,5 +7,12 @@ Vite+React
 
 1. Create environment : `python -m venv .env`
 2. Install backend dependencies : `pip install -r requirements.txt`
-3. Install front end dependencies: ``
+3. Install front end dependencies:
+
+```bash
+cd frontend
+pnpm i
+cd ..
+```
+
 4. Run server: `uvicorn main:app --reload`
