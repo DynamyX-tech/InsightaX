@@ -91,7 +91,7 @@ function Preprocessing() {
         </section>
         <section className="h-min px-4 py-4 border border-foreground rounded-[0.5rem] w-[23vw] flex flex-col gap-4 items-center justify-center">
           <h2 className="text-lg font-bold">Null Data Table</h2>
-          {Object.keys(nullData).map((key) => {
+          {nullData&& Object.keys(nullData).map((key) => {
             return (
               <>
                 <div className="flex items-center justify-between w-[18vw]" key={key}>
