@@ -1,0 +1,1 @@
+task_types = ["classification", "regression", "clustering",]
