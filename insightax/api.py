@@ -4,12 +4,12 @@ import pandas as pd
 import io
 from starlette.requests import Request
 from starlette.status import HTTP_500_INTERNAL_SERVER_ERROR, HTTP_404_NOT_FOUND, HTTP_401_UNAUTHORIZED, HTTP_200_OK
-from .utils import task_types, task_subtypes
+from .utils import *
 from .models import *
 
 router = APIRouter()
+custom_train_model = CustomTrainModel()
 
-dataset = None
 
 @router.get("/task/type")
 async def get_task_type(request: Request):
@@ -53,25 +53,63 @@ async def get_csv_dataset(file: UploadFile = File(...)):
             return {"result": "Invalid file format"}, HTTP_401_UNAUTHORIZED
         else:
             contents = await file.read()
-            dataset = pd.read_csv(io.StringIO(contents.decode('utf-8')))
+            custom_train_model.dataset = pd.read_csv(io.StringIO(contents.decode('utf-8')))
+            custom_train_model.dataset_copy = custom_train_model.dataset.copy()
             return {
                 "result": "Dataset uploaded successfully",
-                "table":dataset.head().to_json(),
-                "is_null":dataset.isnull().sum().to_json()
+                "table":custom_train_model.dataset.head().to_json(),
+                "is_null":custom_train_model.dataset.isnull().sum().to_json()
                 }, HTTP_200_OK
     except Exception as error:
         raise HTTPException(
             status_code=HTTP_500_INTERNAL_SERVER_ERROR, detail="Internal Server Error"
         ) from error
-        
+
+@router.get("/dataset/view")
+async def get_view_dataset(request: Request):
+    """
+    Returns the dataset as json table
+    """
+    try:
+        return {"result": custom_train_model.show_dataset()}, HTTP_200_OK
+    except Exception as error:
+        raise HTTPException(
+            status_code=HTTP_500_INTERNAL_SERVER_ERROR, detail="Internal Server Error"
+        ) from error
+
+@router.get("/preprocess/steps")
+async def get_preprocess_steps(request: Request):
+    """
+    Returns the pre-processing steps.
+    Returns:
+    """
+    try:
+        return {"result": preprocess_steps}, HTTP_200_OK
+    except Exception as error:
+        raise HTTPException(
+            status_code=HTTP_500_INTERNAL_SERVER_ERROR, detail="Internal Server Error"
+        ) from error
+
 @router.get("/dataset/preprocess")
-async def get_preprocess_result(request: Request):
+async def get_preprocess_result(request: Request, step: str = ""):
     """
     Returns the pre-processing stats.
     Returns:
     """
     try:
-        return {"result": "Dataset preprocessed successfully"}, HTTP_200_OK
+        if step=="":
+            return {"result": "Dataset not preprocessed"}, HTTP_404_NOT_FOUND
+        elif step=="Delete empty rows":
+            custom_train_model.delete_empty_rows()
+        elif step=="Fill empty rows":
+            custom_train_model.fill_empty_rows()
+        elif step=="Delete duplicate rows":
+            custom_train_model.delete_duplicate_rows()            
+        return {
+                "result": "Dataset preprocessed successfully",
+                "table":custom_train_model.dataset.head().to_json(),
+                "is_null":custom_train_model.dataset.isnull().sum().to_json()
+                }, HTTP_200_OK
     except Exception as error:
         raise HTTPException(
             status_code=HTTP_500_INTERNAL_SERVER_ERROR, detail="Internal Server Error"

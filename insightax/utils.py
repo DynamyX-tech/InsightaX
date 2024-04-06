@@ -5,3 +5,5 @@ task_subtypes = {
     "regression": [{"linear":"not-available"}, {"logistic":"not-available"}, {"support-vector":"not-available"}, {"decision-tree":"not-available"}, {"random-forest":"not-available"},{"gradient-boosting":"not-available"}, {"neural-networks":"not-available"},],
     "clustering": [{"k-means":"not-available"}, {"neural-networks":"not-available"},],
 }
+
+preprocess_steps =["Delete empty rows", "Fill empty rows", "Delete duplicate rows"]
