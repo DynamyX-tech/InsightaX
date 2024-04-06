@@ -58,7 +58,8 @@ async def get_csv_dataset(file: UploadFile = File(...)):
             return {
                 "result": "Dataset uploaded successfully",
                 "table":custom_train_model.dataset.head().to_json(),
-                "is_null":custom_train_model.dataset.isnull().sum().to_json()
+                "is_null":custom_train_model.dataset.isnull().sum().to_json(),
+                "total_columns":len(custom_train_model.dataset_copy.index)
                 }, HTTP_200_OK
     except Exception as error:
         raise HTTPException(
@@ -66,12 +67,15 @@ async def get_csv_dataset(file: UploadFile = File(...)):
         ) from error
 
 @router.get("/dataset/view")
-async def get_view_dataset(request: Request):
+async def get_view_dataset(request: Request, columns: int):
     """
     Returns the dataset as json table
     """
     try:
-        return {"result": custom_train_model.show_dataset()}, HTTP_200_OK
+        return {
+            "result": custom_train_model.show_dataset(),
+            "total_columns":len(custom_train_model.dataset_copy.index)
+            }, HTTP_200_OK
     except Exception as error:
         raise HTTPException(
             status_code=HTTP_500_INTERNAL_SERVER_ERROR, detail="Internal Server Error"
@@ -107,8 +111,9 @@ async def get_preprocess_result(request: Request, step: str = ""):
             custom_train_model.delete_duplicate_rows()            
         return {
                 "result": "Dataset preprocessed successfully",
-                "table":custom_train_model.dataset.head().to_json(),
-                "is_null":custom_train_model.dataset.isnull().sum().to_json()
+                "table":custom_train_model.show_dataset(),
+                "is_null":custom_train_model.dataset_copy.isnull().sum().to_json(),
+                "total_columns":len(custom_train_model.dataset_copy.index)
                 }, HTTP_200_OK
     except Exception as error:
         raise HTTPException(

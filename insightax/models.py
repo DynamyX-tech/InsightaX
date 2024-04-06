@@ -9,8 +9,8 @@ class CustomTrainModel:
         self.dataset = None
         self.dataset_copy = None
 
-    def show_dataset(self):
-        return self.dataset_copy.head(len(self.dataset_copy.index)).to_json()
+    def show_dataset(self, columns: int = 5):
+        return self.dataset_copy.head(columns).to_json()
         
     def delete_empty_rows(self):
         self.dataset_copy.dropna(inplace=True)
