@@ -26,7 +26,7 @@ const UploadData = () => {
     mutationFn: postTodo,
   });
   return (
-    <Template>
+    <Template current={1}>
       <section className="flex flex-col gap-4 justify-center items-start py-4 px-12 w-full">
         <Button className="bg-foreground rounded">
           <ArrowLeft size={18} />
@@ -75,7 +75,7 @@ const UploadData = () => {
                   let data = await mutation.mutateAsync(formData, {
                     onSuccess: () => {
                       toast.success("Uploaded!");
-                      setLocation("/dashboard/temp");
+                      setLocation("/dashboard/preprocessing ");
                     },
                     onError: (e) => {
                       toast.error(e.message);
