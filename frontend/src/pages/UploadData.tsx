@@ -75,7 +75,7 @@ const UploadData = () => {
                   let data = await mutation.mutateAsync(formData, {
                     onSuccess: () => {
                       toast.success("Uploaded!");
-                      setLocation("/dashboard/temp");
+                      setLocation("/dashboard/preprocessing ");
                     },
                     onError: (e) => {
                       toast.error(e.message);

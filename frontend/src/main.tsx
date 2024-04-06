@@ -12,7 +12,7 @@ import "./index.css";
 import {Toaster} from "sonner";
 import { Route, Switch,Redirect } from "wouter";
 import UploadData from "./pages/UploadData.tsx";
-import Temp from "./pages/Preprocessing.tsx";
+import Preprocessing from "./pages/Preprocessing.tsx";
 const queryClient = new QueryClient()
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
@@ -22,7 +22,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
       <Route path="/" component={App} />
       <Route path="/dashboard"><Redirect href="/dashboard/upload" /></Route>
       <Route path="/dashboard/upload" component={UploadData} />
-      <Route path="/dashboard/temp" component={Temp} />
+      <Route path="/dashboard/preprocessing" component={Preprocessing} />
     </Switch>
     <Toaster/>
     </QueryClientProvider>
