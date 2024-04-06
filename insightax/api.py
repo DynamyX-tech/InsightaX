@@ -73,7 +73,7 @@ async def get_view_dataset(request: Request, columns: int):
     """
     try:
         return {
-            "result": custom_train_model.show_dataset(),
+            "result": custom_train_model.show_dataset(columns),
             "total_columns":len(custom_train_model.dataset_copy.index)
             }, HTTP_200_OK
     except Exception as error:
