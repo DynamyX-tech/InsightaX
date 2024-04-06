@@ -25,5 +25,6 @@ class CustomTrainModel:
         
     def delete_duplicate_rows(self):
         self.dataset_copy.drop_duplicates(inplace=True)
+        
     def show_mode_params(self):
         return self.operation_class.params
