@@ -31,21 +31,17 @@ const NavComponent = (props: {
   );
 };
 
-
-const Dashboard = ({children}:{children:React.ReactNode}) => {
+const navs = ["Upload your dataset","Preprocessing data","Select model","Choose Hyper","Train model","Test model","Export"];
+const Dashboard = ({children,current}:{children:React.ReactNode,current:number}) => {
   
   return (
     <div className="flex">
       <aside className="min-w-72">
         <img src="/Logo.webp" className="h-10 m-6"></img>
         <section className="m-6 mt-12 flex flex-col gap-4">
-          <NavComponent text="Upload your dataset" current />
-          <NavComponent text="Preprocessing data" />
-          <NavComponent text="Select model" />
-          <NavComponent text="Choose Hyper" />
-          <NavComponent text="Train model" />
-          <NavComponent text="Test model" />
-          <NavComponent text="Export" />
+          {
+            navs.map((nav,id)=><NavComponent text={nav} current={(id+1==current)} checked={id<current} />)
+          }
         </section>
       </aside>
       <main className="w-full mt-12 bg-blue-900 bg-opacity-20 mr-10 h-[90vh] rounded-xl">

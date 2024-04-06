@@ -54,7 +54,7 @@ function Preprocessing() {
     })()
   },[])
   return (
-    <Template>
+    <Template current={2}>
       <section className="flex flex-col gap-6 justify-center items-start py-4 px-12 w-full">
         <Button className="bg-foreground rounded">
           <ArrowLeft size={18} />
